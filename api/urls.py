@@ -1,11 +1,12 @@
 from django.urls import path, include
-from .views import CustomRegisterView, UserProfileViewSet
+from .views import CustomRegisterView, UserProfileViewSet, TodoViewSet
 from rest_framework.routers import DefaultRouter
 
 
 router = DefaultRouter()
 
 router.register(r'profiles', UserProfileViewSet, basename='profile')
+router.register(r'todos', TodoViewSet, basename='todo')
 
 
 urlpatterns = [

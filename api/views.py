@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from dj_rest_auth.registration.views import RegisterView
-from .serializers import CustomRegisterSerializer, UserProfileSerializer, UpdateUserProfileSerializer
+from .serializers import CustomRegisterSerializer, UserProfileSerializer, UpdateUserProfileSerializer, TodoSerializer
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from users.models import CustomUser
+from .permissions import IsOwnerOnly
+from todos.models import Todo
 
 
 class CustomRegisterView(RegisterView):
@@ -24,4 +26,10 @@ class UserProfileViewSet(viewsets.ModelViewSet):
             return self.update_serializer_class
         return self.serializer_class
     
-
+class TodoViewSet(viewsets.ModelViewSet):
+    serializer_class = TodoSerializer
+    permission_classes = [IsAuthenticated, IsOwnerOnly,]
+    http_method_names = ('get', 'head', 'options', 'delete',)
+    
+    def get_queryset(self):
+        return Todo.objects.filter(author=self.request.user)

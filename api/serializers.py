@@ -1,6 +1,7 @@
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
 from users.models import CustomUser, Profile
+from todos.models import Todo
 
 
 class CustomRegisterSerializer(RegisterSerializer):
@@ -45,3 +46,10 @@ class UpdateUserProfileSerializer(serializers.ModelSerializer):
         profile_instance.save()
         return instance
     
+
+class TodoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Todo
+        fields = ('id', 'todo_date', 'todo_name', 'todo_start_time', 'todo_end_time', 'created_at',)
+        
+
