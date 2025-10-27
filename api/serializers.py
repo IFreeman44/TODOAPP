@@ -51,5 +51,12 @@ class TodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Todo
         fields = ('id', 'todo_date', 'todo_name', 'todo_start_time', 'todo_end_time', 'created_at',)
+
+
+class UpdateTodoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Todo
+        fields = ('todo_date', 'todo_name', 'todo_start_time', 'todo_end_time',)
+        
         
 
