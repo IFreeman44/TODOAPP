@@ -1,12 +1,19 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import CustomUser, Profile
 
+
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = 'Profile'
+    fk_name = 'user'
 
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
     list_display = ['email', 'is_staff', 'is_superuser', 'is_active',]
+    inlines = (ProfileInline,)
 
     fieldsets = (
         (None, {'fields': ('email', 'password',)}),
