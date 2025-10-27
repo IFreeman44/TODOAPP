@@ -28,3 +28,20 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ('email', 'first_name', 'last_name', 'birth_date', 'profile',)
         read_only_fields = ('email',)
+
+
+class UpdateUserProfileSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer()
+    class Meta:
+        model = CustomUser
+        fields = ('first_name', 'last_name', 'birth_date', 'profile',)
+
+    def update(self, instance, validated_data):
+        profile_data = validated_data.pop('profile', {})
+        profile_instance = instance.profile
+        super().update(instance, validated_data)
+        for attr, value in profile_data.items():
+            setattr(profile_instance, attr, value)
+        profile_instance.save()
+        return instance
+    
