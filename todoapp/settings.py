@@ -31,13 +31,38 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'users',
+    'api',
+    'todos',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    'dj_rest_auth',
+    'dj_rest_auth',
+
+    'django_filters',
 ]
+
+SITE_ID = 5
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_SIGNUP_FIELDS = ('email*', 'first_name*', 'last_name*', 'birth_date*', 'password1*', 'password2*',)
+ACCOUNT_LOGIN_METHODS = {'email',}
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -47,7 +72,23 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'allauth.account.middleware.AccountMiddleware'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework_simplejwt.authentication.JWTAuthentication',],
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend',],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+}
+
+REST_AUTH = {
+    "USE_JWT": True,
+    'JWT_AUTH_HTTPONLY': False,
+    'REGISTER_SERIALIZERS': 'api.serializers.CustomRegisterSerializer',
+}
 
 ROOT_URLCONF = 'todoapp.urls'
 
