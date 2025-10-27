@@ -6,6 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from users.models import CustomUser
 from .permissions import IsOwnerOnly
 from todos.models import Todo
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class CustomRegisterView(RegisterView):
@@ -26,14 +28,19 @@ class UserProfileViewSet(viewsets.ModelViewSet):
             return self.update_serializer_class
         return self.serializer_class
     
+    
 class TodoViewSet(viewsets.ModelViewSet):
     serializer_class = TodoSerializer
     update_serializer_class = UpdateTodoSerializer
     permission_classes = [IsAuthenticated, IsOwnerOnly,]
     http_method_names = ('get', 'post', 'put', 'patch','head', 'options', 'delete',)
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['author']
+    search_fields = ['todo_name']
+    ordering = ['-created_at']
     
     def get_queryset(self):
-        return Todo.objects.filter(author=self.request.user)
+        return Todo.objects.filter(author=self.request.user).order_by('-created_at')
     
     def get_serializer_class(self):
         if self.action in ['update', 'partial_update',]:
