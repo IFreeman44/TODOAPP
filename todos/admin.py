@@ -5,6 +5,6 @@ from .models import Todo
 
 class TodoAdmin(admin.ModelAdmin):
     model = Todo
-    list_display = ['author', 'todo_date', 'todo_name',]
+    list_display = ['id', 'todo_date', 'todo_name',]
 
 admin.site.register(Todo, TodoAdmin)
