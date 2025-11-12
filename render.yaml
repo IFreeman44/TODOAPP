@@ -3,8 +3,6 @@ services:
     name: database-mysql
     env: mysql
     plan: free 
-    mysql:
-      version: "9.1.0" 
 
 
   - type: web
