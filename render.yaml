@@ -1,0 +1,25 @@
+services:
+  - type: pserv
+    name: database-mysql
+    env: mysql
+    plan: free 
+    mysql:
+      version: "9.1.0" 
+
+
+  - type: web
+    name: todo-app-mysql    
+    env: python
+    plan: free 
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn todoapp.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromService:
+          type: pserv
+          name: database-mysql
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.13.0 
