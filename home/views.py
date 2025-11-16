@@ -5,6 +5,7 @@ from rest_framework.response import Response
 
 
 class IndexView(APIView):
+    permission_classes = []
     def get(self, request):
         data = {"message": "Hello! This is TODOAPP.", "documentation": "visit again"} 
         return Response(data=data, status=status.HTTP_200_OK)
