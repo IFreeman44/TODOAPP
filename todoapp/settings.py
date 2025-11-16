@@ -36,6 +36,7 @@ if RENDER_EXTERNAL_HOSTNAME:
 # Application definition
 
 INSTALLED_APPS = [
+    'home',
     'users',
     'api',
     'todos',
