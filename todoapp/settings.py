@@ -66,7 +66,7 @@ SITE_ID = 5
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_SIGNUP_FIELDS = ('email*', 'first_name*', 'last_name*', 'birth_date*', 'password1*', 'password2*',)
 ACCOUNT_LOGIN_METHODS = {'email',}
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 AUTH_USER_MODEL = 'users.CustomUser'
 
